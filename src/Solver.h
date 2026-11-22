@@ -12,9 +12,9 @@ class Solver
 
     private:
 
-    bool findempty(Cube&, int&, int&, int&);
+    bool findEmpty(Cube&, int&, int&, int&);
 
-    bool isValid(Cube&, int&, int&, int&);
+    bool isValid(Cube&, int, int, int, int);
 };
 
 #endif
