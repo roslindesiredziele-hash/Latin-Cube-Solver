@@ -26,3 +26,8 @@ int Cube::get(int layer, int row, int col) const
 {
     return cube[layer][row][col];
 }
+
+void Cube::set(int layer, int row, int col, int value)
+{
+    cube[layer][row][col] = value;
+}
