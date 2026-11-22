@@ -13,6 +13,8 @@ double BenchmarkSolve(int size, double ratio, long long& calls);
 
 double AverageBenchmark(int size, double ratio, int runs);
 
+void GenerateSampleFiles();
+
 void RunBenchmarks(const std::vector<int>& sizes, const std::vector<double>& ratios, int runs);
 
 int main()
@@ -140,3 +142,4 @@ void RunBenchmarks(const std::vector<int>& sizes, const std::vector<double>& rat
 
     file.close();
 }
+
