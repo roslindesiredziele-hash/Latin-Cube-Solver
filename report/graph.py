@@ -1,13 +1,17 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load benchmark data
+# --------------------------------------------------
+# Load Data
+# --------------------------------------------------
+
 df = pd.read_csv("data/benchmark.csv")
 
 plt.style.use("default")
 
 # --------------------------------------------------
-# Graph 1: Runtime vs Cube Size
+# Graph 1
+# Runtime vs Cube Size (Log Scale)
 # --------------------------------------------------
 
 plt.figure(figsize=(10, 6))
@@ -20,46 +24,96 @@ for ratio in sorted(df["MaskRatio"].unique()):
         subset["RuntimeMs"],
         marker="o",
         linewidth=2,
-        label=f"Mask Ratio {ratio:.1f}"
+        label=f"Mask {ratio:.1f}"
     )
 
 plt.title("Runtime vs Cube Size")
-plt.xlabel("Cube Size (n)")
+plt.xlabel("Cube Size")
 plt.ylabel("Runtime (ms)")
-plt.grid(True, alpha=0.3)
-plt.legend()
+plt.yscale("log")
+plt.grid(True, which="both", alpha=0.3)
+plt.legend(title="Mask Ratio")
 
 plt.tight_layout()
-plt.savefig("runtime_vs_size.png", dpi=300)
+plt.savefig(
+    "report/runtime_vs_size_log.png",
+    dpi=300
+)
 
 # --------------------------------------------------
-# Graph 2: Runtime vs Mask Ratio
+# Graph 2
+# Runtime vs Mask Ratio
+# Large Cubes Only
 # --------------------------------------------------
-
-plt.figure(figsize=(10, 6))
 
 for size in sorted(df["CubeSize"].unique()):
+    subset = df[df["CubeSize"] == size]
+
+    plt.figure(figsize=(8,5))
+
+    plt.plot(
+        subset["MaskRatio"],
+        subset["RuntimeMs"],
+        marker="o",
+        linewidth=2
+    )
+
+    plt.title(f"Runtime vs Mask Ratio (Size {size})")
+    plt.xlabel("Mask Ratio")
+    plt.ylabel("Runtime (ms)")
+
+    plt.grid(True)
+
+    plt.tight_layout()
+
+    plt.savefig(
+        f"report/runtime_size_{size}.png",
+        dpi=300
+    )
+    
+plt.figure(figsize=(10, 6))
+
+for size in [9, 10]:
     subset = df[df["CubeSize"] == size]
 
     plt.plot(
         subset["MaskRatio"],
         subset["RuntimeMs"],
         marker="o",
-        linewidth=2,
+        linewidth=3,
         label=f"Size {size}"
     )
 
-plt.title("Runtime vs Mask Ratio")
+plt.title("Runtime vs Mask Ratio (Sizes 9-10)")
 plt.xlabel("Mask Ratio")
 plt.ylabel("Runtime (ms)")
-plt.grid(True, alpha=0.3)
+plt.grid(True)
 plt.legend()
 
 plt.tight_layout()
-plt.savefig("runtime_vs_mask_ratio.png", dpi=300)
+
+plt.savefig(
+    "report/runtime_vs_mask_ratio_hard.png",
+    dpi=300
+)
+
+    
+plt.title(
+    "Runtime vs Mask Ratio (Large Cubes)"
+)
+
+plt.xlabel("Mask Ratio")
+plt.ylabel("Runtime (ms)")
+
+plt.yscale("log")
+
+plt.grid(True, which="both", alpha=0.3)
+
+plt.legend(title="Cube Size")
 
 # --------------------------------------------------
-# Graph 3: Recursive Calls vs Cube Size
+# Graph 3
+# Recursive Calls vs Cube Size
 # --------------------------------------------------
 
 plt.figure(figsize=(10, 6))
@@ -72,16 +126,71 @@ for ratio in sorted(df["MaskRatio"].unique()):
         subset["RecursiveCalls"],
         marker="o",
         linewidth=2,
-        label=f"Mask Ratio {ratio:.1f}"
+        label=f"Mask {ratio:.1f}"
     )
 
 plt.title("Recursive Calls vs Cube Size")
-plt.xlabel("Cube Size (n)")
+plt.xlabel("Cube Size")
 plt.ylabel("Recursive Calls")
-plt.grid(True, alpha=0.3)
-plt.legend()
+
+plt.yscale("log")
+
+plt.grid(True, which="both", alpha=0.3)
+
+plt.legend(title="Mask Ratio")
 
 plt.tight_layout()
-plt.savefig("recursive_calls_vs_size.png", dpi=300)
+
+plt.savefig(
+    "report/recursive_calls_vs_size.png",
+    dpi=300
+)
+
+# --------------------------------------------------
+# Graph 4
+# Hardest Instances (60% Masking)
+# --------------------------------------------------
+
+plt.figure(figsize=(10, 6))
+
+hard = df[
+    df["MaskRatio"] == 0.60
+]
+
+plt.plot(
+    hard["CubeSize"],
+    hard["RuntimeMs"],
+    marker="o",
+    linewidth=3,
+    color="red"
+)
+
+plt.title(
+    "Runtime vs Cube Size (60% Masking)"
+)
+
+plt.xlabel("Cube Size")
+plt.ylabel("Runtime (ms)")
+
+plt.grid(True, alpha=0.3)
+
+for size, runtime in zip(
+    hard["CubeSize"],
+    hard["RuntimeMs"]
+):
+    plt.annotate(
+        f"{runtime:.2f}",
+        (size, runtime),
+        textcoords="offset points",
+        xytext=(0, 8),
+        ha="center"
+    )
+
+plt.tight_layout()
+
+plt.savefig(
+    "report/hard_instances.png",
+    dpi=300
+)
 
 plt.show()
