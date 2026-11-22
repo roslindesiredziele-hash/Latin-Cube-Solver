@@ -224,9 +224,4 @@ for size in sorted(df["CubeSize"].unique()):
 
     plt.tight_layout()
 
-    plt.savefig(
-        f"report/runtime_size_{size}.png",
-        dpi=300
-    )
-
 plt.show()
