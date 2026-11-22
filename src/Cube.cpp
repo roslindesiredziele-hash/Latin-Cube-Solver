@@ -87,3 +87,26 @@ void Cube::maskCells(double ratio)
         }
     }
 }
+
+#include <iostream>
+
+void Cube::print() const
+{
+    for (int layer = 0; layer < n; layer++)
+    {
+        std::cout << "Layer " << layer << '\n';
+
+        for (int row = 0; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                std::cout << cube[layer][row][col] << ' ';
+            }
+            
+            std::cout << '\n';
+        }
+
+        std::cout << '\n';
+    }
+}
+
