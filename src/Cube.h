@@ -2,6 +2,7 @@
 #define CUBE_H
 
 #include <vector>
+#include <string>
 
 class Cube
 {
@@ -11,7 +12,7 @@ class Cube
     
     public:
     Cube(int);
-    
+
 };
 
 
