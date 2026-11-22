@@ -15,6 +15,7 @@ class Cube
 
     int size() const;
     int get(int, int, int) const;
+    void set(int, int, int, int);
 };
 
 
