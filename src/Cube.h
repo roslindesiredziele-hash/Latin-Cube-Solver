@@ -13,6 +13,8 @@ class Cube
     public:
     Cube(int);
 
+    int size() const;
+    
 };
 
 
