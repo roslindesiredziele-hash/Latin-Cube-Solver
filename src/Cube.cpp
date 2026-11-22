@@ -62,3 +62,28 @@ void Cube::generateLatinCube()
     }
 }
 
+void Cube::maskCells(double ratio)
+{
+    if (ratio < 0.0 || ratio > 1.0)
+    {
+        throw std::invalid_argument("Mask ratio must be between 0 and 1.");
+    }
+
+    int totalCells = n * n * n;
+    int cellsToMask = static_cast<int>(totalCells * ratio);
+
+    int masked = 0;
+
+    while (masked < cellsToMask)
+    {
+        int layer = std::rand() % n;
+        int row   = std::rand() % n;
+        int col   = std::rand() % n;
+
+        if (cube[layer][row][col] != 0)
+        {
+            cube[layer][row][col] = 0;
+            masked++;
+        }
+    }
+}
