@@ -6,6 +6,10 @@
 #include <cstdlib>
 #include <ctime>
 
+double BenchmarkSolve(int size, double ratio);
+
+
+
 int main()
 {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
