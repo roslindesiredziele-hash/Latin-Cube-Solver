@@ -9,6 +9,8 @@ class Cube
     int n;
     std::vector<std::vector<std::vector<int>>> cube;
     
+    public:
+    Cube(int);
     
 };
 
