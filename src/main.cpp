@@ -29,7 +29,9 @@ int main()
         5,
         6,
         7,
-        8
+        8,
+        9,
+        10
     };
 
     std::vector<double> ratios =
@@ -40,8 +42,6 @@ int main()
         0.40,
         0.50,
         0.60,
-        0.70,
-        0.80
     };
 
     constexpr int runs = 20;
