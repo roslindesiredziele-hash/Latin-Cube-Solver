@@ -143,3 +143,40 @@ void RunBenchmarks(const std::vector<int>& sizes, const std::vector<double>& rat
     file.close();
 }
 
+void GenerateSampleFiles()
+{
+    Cube generated(4);
+
+    generated.generateLatinCube();
+
+    generated.renameSymbols();
+    generated.permuteLayers();
+
+    generated.saveCSV("data/generated_cube.csv");
+    
+    Cube masked(4);
+
+    masked.generateLatinCube();
+
+    masked.renameSymbols();
+    masked.permuteLayers();
+
+    masked.maskCells(0.30);
+
+    masked.saveCSV("data/masked_cube.csv");
+    
+    Cube solved(4);
+
+    solved.generateLatinCube();
+
+    solved.renameSymbols();
+    solved.permuteLayers();
+
+    solved.maskCells(0.30);
+
+    Solver solver;
+
+    solver.solve(solved);
+
+    solved.saveCSV("data/solved_cube.csv");
+}
