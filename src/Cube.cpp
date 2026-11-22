@@ -61,6 +61,42 @@ void Cube::generateLatinCube()
     }
 }
 
+void Cube::renameSymbols()
+{
+    std::vector<int> mapping(n + 1);
+
+    for (int i = 1; i <= n; i++)
+    {
+        mapping[i] = i;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        int j = 1 + std::rand() % n;
+
+        int temp = mapping[i];
+        mapping[i] = mapping[j];
+        mapping[j] = temp;
+    }
+
+    for (int layer = 0; layer < n; layer++)
+    {
+        for (int row = 0; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                int value = cube[layer][row][col];
+
+                if (value != 0)
+                {
+                    cube[layer][row][col] =
+                        mapping[value];
+                }
+            }
+        }
+    }
+}
+
 void Cube::maskCells(double ratio)
 {
     if (ratio < 0.0 || ratio > 1.0)
