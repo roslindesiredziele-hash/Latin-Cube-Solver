@@ -6,12 +6,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 
 double MeasureMilliseconds(LARGE_INTEGER start, LARGE_INTEGER end, LARGE_INTEGER freq);
 
 double BenchmarkSolve(int size, double ratio, long long& calls);
 
-double AverageBenchmark(int size, double ratio, int runs);
+double AverageBenchmark(int size, double ratio, int runs, long long& avgCalls);
 
 void GenerateSampleFiles();
 
@@ -26,14 +27,21 @@ int main()
         3,
         4,
         5,
-        6
+        6,
+        7,
+        8
     };
 
     std::vector<double> ratios =
     {
+        0.10,
         0.20,
+        0.30,
         0.40,
-        0.60
+        0.50,
+        0.60,
+        0.70,
+        0.80
     };
 
     constexpr int runs = 20;
