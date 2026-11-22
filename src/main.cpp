@@ -75,3 +75,47 @@ double AverageBenchmark(int size, double ratio, int runs, long long& avgCalls)
     return totalTime / runs;
 }
 
+void RunBenchmarks(const std::vector<int>& sizes, const std::vector<double>& ratios, int runs)
+{
+    std::ofstream file("data/benchmark.csv");
+
+    if(!file)
+    {
+        std::cerr << "Failed to open benchmark.csv\n";
+
+        return;
+    }
+
+    file
+        << "CubeSize,"
+        << "MaskRatio,"
+        << "RuntimeMs,"
+        << "RecursiveCalls\n";
+
+    for(int size : sizes)
+    {
+        for(double ratio : ratios)
+        {
+            long long calls = 0;
+
+            double runtime = AverageBenchmark(size, ratio, runs, calls);
+
+            file
+                << size << ","
+                << ratio << ","
+                << runtime << ","
+                << calls << "\n";
+
+            std::cout
+                << "Size: " << size
+                << " Ratio: " << ratio
+                << " Runtime: "
+                << runtime
+                << " ms Calls: "
+                << calls
+                << '\n';
+        }
+    }
+
+    file.close();
+}
