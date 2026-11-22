@@ -17,3 +17,8 @@ Cube::Cube(int size)
     );
 }
 
+int Cube::size() const
+{
+    return n;
+}
+
