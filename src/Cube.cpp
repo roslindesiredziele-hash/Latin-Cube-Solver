@@ -1,8 +1,6 @@
 #include "Cube.h"
 
 #include <stdexcept>
-#include <cstdlib>
-#include <ctime>
 
 Cube::Cube(int size)
 {
