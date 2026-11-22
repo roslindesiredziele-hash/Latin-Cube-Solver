@@ -12,6 +12,8 @@ class Solver
 
     private:
 
+    bool findempty(Cube&, int&, int&, int&);
+
     
 };
 
