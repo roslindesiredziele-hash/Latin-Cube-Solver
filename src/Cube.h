@@ -21,7 +21,7 @@ class Cube
     void renameSymbols();
     void permuteLayers();
     void maskCells(double);
-    
+    void print() const;
 };
 
 
