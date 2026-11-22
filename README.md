@@ -118,7 +118,9 @@ report/
 
 ## Example Output
 
-### Sample Puzzle
+The results vary because puzzle generation and masking are randomized. 
+
+### Sample Puzzle (Illustrative Example)
 
 ```text
 Layer 0
@@ -179,11 +181,10 @@ Benchmark complete.
 A valid Latin cube is generated using:
 
 ```cpp
-cube[layer][row][col] =
-    (layer + row + col) % n + 1;
+cube[layer][row][col] = (layer + row + col) % n + 1;
 ```
 
-This construction guarantees that every symbol appears exactly once in every row, column, and depth line.
+This construction produces a valid Latin cube because each symbol appears exactly once in every row, column, and depth line. The formula is analogous to the cyclic construction commonly used for Latin squares.
 
 ### Puzzle Generation
 
@@ -219,12 +220,12 @@ The number of recursive calls is recorded during benchmarking to measure the siz
 
 Let:
 
-- `n` = number of symbols
+- `n` = number of possible symbols
 - `m` = number of masked cells
 
 For each empty cell, the solver may attempt up to `n` candidate values.
 
-Worst-case complexity:
+Worst-case time complexity:
 
 ```text
 O(n^m)
@@ -262,7 +263,7 @@ The benchmark graphs should reflect these trends if the implementation behaves a
 | 9 | 33.234 | 6,151 |
 | 10 | 8217.130 | 2,499,852 |
 
-These values correspond to one representative benchmark run using a masking ratio of 60%. Because puzzle generation is randomized, exact runtimes and recursive call counts may vary between executions.
+These values correspond to one representative benchmark run using a masking ratio of 60%. The results show a steady increase in both runtime and recursive calls as cube size grows. The increase becomes particularly pronounced for cube sizes 9 and 10, where the search space expands rapidly.
 
 ### Hardest Observed Instance
 
@@ -322,11 +323,23 @@ As cube size and masking ratio increase, the solver must explore a significantly
 
 ---
 
+## Dataset
+
+The benchmark dataset generated during experimentation is provided in:
+
+```text
+data/benchmark.csv
+```
+
+---
+
 ## Generated Graphs
+
+The following graphs were generated directly from the benchmark dataset and are included to support the findings presented in this README and the accompanying report.
 
 ### Runtime vs Cube Size (Log Scale)
 
-`report/runtime_vs_size_log.png`
+![Runtime vs Cube Size](report/runtime_vs_size_log.png)
 
 **Observation**
 
@@ -338,7 +351,7 @@ As cube size and masking ratio increase, the solver must explore a significantly
 
 ### Recursive Calls vs Cube Size
 
-`report/recursive_calls_vs_size.png`
+![Recursive Calls vs Cube Size](report/recursive_calls_vs_size.png)
 
 **Observation**
 
@@ -350,7 +363,7 @@ As cube size and masking ratio increase, the solver must explore a significantly
 
 ### Runtime vs Mask Ratio (Log Scale, Sizes 9 and 10)
 
-`report/runtime_pair_9_10_log.png`
+![Runtime vs Mask Ratio](report/runtime_pair_9_10_log.png)
 
 **Observation**
 
@@ -362,7 +375,7 @@ As cube size and masking ratio increase, the solver must explore a significantly
 
 ### Recursive Calls vs Cube Size (60% Masking)
 
-`report/hard_recursive_calls.png`
+![Calls vs Cube Size](report/hard_recursive_calls.png)
 
 **Observation**
 
@@ -375,7 +388,7 @@ As cube size and masking ratio increase, the solver must explore a significantly
 
 ### Graph Summary
 
-The generated graphs support the following conclusions:
+The generated graphs provide empirical evidence supporting the theoretical complexity analysis:
 
 - Runtime increases with cube size.
 - Runtime increases with masking ratio.
@@ -400,7 +413,7 @@ The experimental results confirm that recursive backtracking efficiently solves 
 
 However, runtime and recursive calls grow rapidly as cube size and masking ratio increase. The largest benchmark instance required approximately **2.5 million recursive calls** and more than **8 seconds** of computation time, demonstrating the exponential growth of the search space predicted by the theoretical analysis.
 
-Overall, the benchmark results are consistent with the expected behavior of a backtracking solver.
+Overall, the experimental results are consistent with the theoretical complexity of recursive backtracking and demonstrate how search-space growth impacts practical performance on larger Latin cube instances.
 
 ---
 
