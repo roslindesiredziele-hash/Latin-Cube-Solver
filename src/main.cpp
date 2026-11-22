@@ -10,7 +10,7 @@ double BenchmarkSolve(int size, double ratio);
 
 double AverageBenchmark(int size, double ratio, int runs);
 
-
+void RunBenchmarks(const std::vector<int>& sizes, const std::vector<double>& ratios, int runs);
 
 int main()
 {
