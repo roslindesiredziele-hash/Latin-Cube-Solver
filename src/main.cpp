@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <ctime>
 
+double MeasureMilliseconds(LARGE_INTEGER start, LARGE_INTEGER end, LARGE_INTEGER freq);
+
 double BenchmarkSolve(int size, double ratio);
 
 double AverageBenchmark(int size, double ratio, int runs);
@@ -81,3 +83,4 @@ int main()
 
     return 0;
 }
+
