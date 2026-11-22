@@ -19,3 +19,31 @@ bool Solver::findEmpty(Cube& cube, int& layer, int& row, int& col)
     return false;
 }
 
+bool Solver::isValid(Cube& cube, int layer, int row, int col, int value)
+{
+    for (int c = 0; c < cube.size(); c++)
+    {
+        if (cube.get(layer, row, c) == value)
+        {
+            return false;
+        }
+    }
+
+    for (int r = 0; r < cube.size(); r++)
+    {
+        if (cube.get(layer, r, col) == value)
+        {
+            return false;
+        }
+    }
+
+    for (int l = 0; l < cube.size(); l++)
+    {
+        if (cube.get(l, row, col) == value)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
