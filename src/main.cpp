@@ -114,9 +114,6 @@ double BenchmarkSolve(int size, double ratio, long long& calls)
 
     calls = solver.calls;
 
-    return MeasureMilliseconds(
-        start,
-        end,
-        freq
-    );
+    return MeasureMilliseconds(start, end, freq);
 }
+
