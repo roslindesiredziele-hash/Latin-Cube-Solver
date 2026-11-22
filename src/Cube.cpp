@@ -1,14 +1,19 @@
 #include "Cube.h"
 
-Cube::Cube(int size):
-        n(size),
-        cube
-        (size, std::vector<std::vector<int>>
-            (size, std::vector<int>
-                (size, 0)
-            )
-        )
-{
+#include <stdexcept>
 
+Cube::Cube(int size)
+{
+    if (size <= 0)
+    {
+        throw std::invalid_argument("Cube size must be greater than 0.");
+    }
+
+    n = size;
+
+    cube = std::vector<std::vector<std::vector<int>>>
+    (n, std::vector<std::vector<int>>
+        (n, std::vector<int>(n, 0))
+    );
 }
 
