@@ -1,5 +1,6 @@
 #include "Cube.h"
 
+#include <fstream>
 #include <stdexcept>
 
 Cube::Cube(int size)
@@ -107,3 +108,4 @@ void Cube::print() const
         std::cout << '\n';
     }
 }
+
