@@ -38,6 +38,8 @@ int main()
 
     constexpr int runs = 20;
 
+    GenerateSampleFiles();
+
     RunBenchmarks(sizes, ratios, runs);
 
     std::cout << "Benchmark complete.\n";
