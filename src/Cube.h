@@ -22,6 +22,8 @@ class Cube
     void permuteLayers();
     void maskCells(double);
     void print() const;
+
+    bool saveCSV(const std::string&);
 };
 
 
