@@ -9,7 +9,7 @@ class Cube
     private:
 
     int n;
-    
+
     std::vector<std::vector<std::vector<int>>> cube;
     
     public:
@@ -32,7 +32,7 @@ class Cube
 
     void print() const;
 
-    bool saveCSV(const std::string&);
+    bool saveCSV(const std::string&) const;
 };
 
 
