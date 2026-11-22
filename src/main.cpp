@@ -8,7 +8,7 @@
 
 double MeasureMilliseconds(LARGE_INTEGER start, LARGE_INTEGER end, LARGE_INTEGER freq);
 
-double BenchmarkSolve(int size, double ratio);
+double BenchmarkSolve(int size, double ratio, long long& calls);
 
 double AverageBenchmark(int size, double ratio, int runs);
 
@@ -89,3 +89,34 @@ double MeasureMilliseconds(LARGE_INTEGER start, LARGE_INTEGER end, LARGE_INTEGER
     return static_cast<double>(end.QuadPart - start.QuadPart) * 1000.0 / freq.QuadPart;
 }
 
+double BenchmarkSolve(int size, double ratio, long long& calls)
+{
+    Cube cube(size);
+
+    cube.generateLatinCube();
+    cube.renameSymbols();
+    cube.permuteLayers();
+    cube.maskCells(ratio);
+
+    Solver solver;
+
+    LARGE_INTEGER freq;
+    LARGE_INTEGER start;
+    LARGE_INTEGER end;
+
+    QueryPerformanceFrequency(&freq);
+
+    QueryPerformanceCounter(&start);
+
+    solver.solve(cube);
+
+    QueryPerformanceCounter(&end);
+
+    calls = solver.calls;
+
+    return MeasureMilliseconds(
+        start,
+        end,
+        freq
+    );
+}
