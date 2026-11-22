@@ -8,6 +8,8 @@
 
 double BenchmarkSolve(int size, double ratio);
 
+double AverageBenchmark(int size, double ratio, int runs);
+
 
 
 int main()
