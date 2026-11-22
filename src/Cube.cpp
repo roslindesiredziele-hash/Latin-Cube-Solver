@@ -109,3 +109,38 @@ void Cube::print() const
     }
 }
 
+bool Cube::saveCSV(const std::string& filename) const
+{
+    std::ofstream file(filename);
+
+    if (!file.is_open())
+    {
+        return false;
+    }
+
+    for (int layer = 0; layer < n; layer++)
+    {
+        file << "Layer " << layer << '\n';
+
+        for (int row = 0; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                file << cube[layer][row][col];
+
+                if (col < n - 1)
+                {
+                    file << ',';
+                }
+            }
+
+            file << '\n';
+        }
+
+        file << '\n';
+    }
+
+    file.close();
+
+    return true;
+}
