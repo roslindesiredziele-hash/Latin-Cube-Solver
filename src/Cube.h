@@ -14,7 +14,7 @@ class Cube
     Cube(int);
 
     int size() const;
-    
+    int get(int, int, int) const;
 };
 
 
