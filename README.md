@@ -88,10 +88,10 @@ g++ src/*.cpp -o benchmark
 
 ## Usage
 
-Run the benchmark executable:
+Run the benchmark executable (use `./benchmark` on Linux/macOS or `./benchmark.exe` on Windows):
 
 ```bash
-./benchmark.exe
+./benchmark
 ```
 
 The program:
@@ -131,197 +131,226 @@ Layer 1
 3 4 0 2
 4 1 0 3
 1 2 0 4
-2 0 4 *
+2 0 4 1
 ```
 
 ### Solved Puzzle
 
 ```text
-L*yer 0*2 3 4 1
-3 4 1 *
+Layer 0
+2 3 4 1
+3 4 1 2
 4 1 2 3
-1 2 3*4
+1 2 3 4
 
 Layer 1
 3 4 1 2
-* 1 2 3
-1 2 3 4*2 3 4 1
+4 1 2 3
+1 2 3 4
+2 3 4 1
 ```
 
 ### Benchmark Output
-**``text
-Size: 8 Ratio: 0.6 Runtime:*6.47 ms Calls: 1406
-Size: 9*Ratio: 0.6 Runtime: 33.23 ms Calls* 6151
-Size: 10 Ratio: 0.6 Runtime* 8217.13 ms Calls: 2499852
 
-Benchm*rk complete.
+```text
+Size: 8 Ratio: 0.6 Runtime: 6.47 ms Calls: 1406
+Size: 9 Ratio: 0.6 Runtime: 33.23 ms Calls: 6151
+Size: 10 Ratio: 0.6 Runtime: 8217.13 ms Calls: 2499852
+
+Benchmark complete.
 ```
 
 ---
 
-## Benchmar* Configuration
+## Benchmark Configuration
 
-| Parameter | Valu*s |
+| Parameter | Values |
 |------------|---------|
-| Cub* Sizes | 3, 4, 5, 6, 7, 8, 9, 10 |*| Mask Ratios | 10%, 20%, 30%, 40%* 50%, 60% |
-| Repetitions | 20 run* |
+| Cube Sizes | 3, 4, 5, 6, 7, 8, 9, 10 |
+| Mask Ratios | 10%, 20%, 30%, 40%, 50%, 60% |
+| Repetitions | 20 runs |
 
 ---
 
 ## Algorithm
 
-### Latin C*be Generation
+### Latin Cube Generation
 
-A valid Latin cube *s generated using:
+A valid Latin cube is generated using:
 
 ```cpp
 cube[layer][row][col] =
-    (layer + row +*col) % n + 1;
+    (layer + row + col) % n + 1;
 ```
 
-This guarantees*that every symbol appears exactly *nce in every row, column, and dept* line.
+This construction guarantees that every symbol appears exactly once in every row, column, and depth line.
 
 ### Puzzle Generation
 
-The*generated cube is randomized throu*h:
+The generated cube is randomized through:
 
 - Symbol renaming
-- Layer perm*tation
+- Layer permutation
 - Random masking
 
-### Backt*acking Solver
+These transformations preserve the Latin cube properties while producing different puzzle instances for benchmarking.
 
-The solver:
+### Backtracking Solver
 
-1. Fin*s the next empty cell.
-2. Tries ca*didate values from `1` to `n`.
-3. *hecks row, column, and depth const*aints.
-4. Recursively continues so*ving.
-5. Backtracks when a conflic* is encountered.
+The solver reconstructs the puzzle using depth-first search with backtracking.
+
+For each empty cell:
+
+1. Locate the next empty position.
+2. Try all values from `1` to `n`.
+3. Check whether the candidate value already appears in:
+   - the current row,
+   - the current column,
+   - the current depth line.
+4. If the placement is valid, recursively continue solving.
+5. If a contradiction is reached, undo the assignment and try the next candidate.
+6. When all cells are filled, the puzzle is solved.
+
+The number of recursive calls is recorded during benchmarking to measure the size of the explored search space.
 
 ---
 
-## Complexi*y Analysis
+## Complexity Analysis
 
 Let:
 
-- `n` = number o* symbols
-- `m` = number of masked *ells
+- `n` = number of symbols
+- `m` = number of masked cells
 
-For each empty cell, the sol*er may attempt up to `n` candidate*values.
+For each empty cell, the solver may attempt up to `n` candidate values.
 
 Worst-case complexity:
 
-`*`text
-O(n^m)
-```
-
-This exponential*complexity suggests:
-
-- Increasing*runtime for larger cubes.
-- Increa*ing runtime for higher masking rat*os.
-- Rapid growth of recursive ca*ls for difficult puzzle instances.*
----
-
-## Results
-
-### Representati*e Results (60% Masking)
-
-| Cube Si*e | Runtime (ms) | Recursive Calls*|
-|-----------|-------------:|----*-----------:|
-| 3 | 0.016 | 17 |
-|*4 | 0.049 | 40 |
-| 5 | 0.315 | 96 *
-| 6 | 0.926 | 196 |
-| 7 | 1.917 |*366 |
-| 8 | 6.467 | 1,406 |
-| 9 | *3.234 | 6,151 |
-| 10 | 8217.130 | *,499,852 |
-
-### Hardest Observed I*stance
-
-| Metric | Value |
-|------*---|-------:|
-| Cube Size | 10 |
-|*Mask Ratio | 60% |
-| Runtime | 821* ms |
-| Recursive Calls | 2,499,85* |
-
----
-
-## Findings
-
-### Runtime *rowth
-
-Runtime increased with both*cube size and masking ratio.
-
-Smal* cubes were solved almost instantl*, while larger heavily masked cube* required substantially more compu*ation. The most difficult benchmar* instance (**size 10**, **60% mask*ng**) required more than **8 secon*s** to solve*
-
-### Recursive Search Growth
-
-The*number of recursive calls increase* rapidly as problem difficulty inc*eased.
-
-At **60% masking**, recurs*ve calls increased from:
-
 ```text
-*7
-```
-
-for a cube of size **3**
-
-t*
-
-```text
-2,499,852
-```
-
-for a cub* of size **10**.
-
-This demonstrate* the rapid expansion of the search*space typical of*backtracking algorithms.
-
-### Comp*rison with Theory*
-The observed behavior matches*the theoretical complexity:
-
-```te*t
 O(n^m)
 ```
 
 where:
 
-- `n` is the*number of symbols.
-- `m` is the nu*ber of masked cells.
+- `n` is the number of possible symbols.
+- `m` is the number of masked cells.
 
-As cube size*and masking ratio increase, the so*ver must explore a significantly l*rger search space, leading to subs*antial increases in runtime and re*ursion depth.
+In the worst case, every empty cell may require exploring up to `n` candidate values, producing an exponential search tree.
 
----
+Therefore, we expect:
 
-## Generated G*aphs
+- Runtime to increase with cube size.
+- Runtime to increase with masking ratio.
+- Recursive calls to grow rapidly for difficult puzzle instances.
 
-### Runtime vs Cube Size (Lo* Scale)
-
-![Runtime vs Cube Size](r*port/runtime_vs_size_log.png)
-
-**O*servation**
-
-- Runtime increases w*th cube size.
-- Higher masking rat*os consistently produce longer run*imes.
-- The logarithmic scale reve*ls growth*trends that are difficult to see o* a linear scale.
+The benchmark graphs should reflect these trends if the implementation behaves as predicted by theory.
 
 ---
 
-### Recursi*e Calls vs Cube Size
+## Results
 
-![Recursive *alls vs Cube Size](report/recursiv*_calls_vs_size.png)
+### Representative Results (60% Masking)
+
+| Cube Size | Runtime (ms) | Recursive Calls |
+|-----------|-------------:|----------------:|
+| 3 | 0.016 | 17 |
+| 4 | 0.049 | 40 |
+| 5 | 0.315 | 96 |
+| 6 | 0.926 | 196 |
+| 7 | 1.917 | 366 |
+| 8 | 6.467 | 1,406 |
+| 9 | 33.234 | 6,151 |
+| 10 | 8217.130 | 2,499,852 |
+
+These values correspond to one representative benchmark run using a masking ratio of 60%. Because puzzle generation is randomized, exact runtimes and recursive call counts may vary between executions.
+
+### Hardest Observed Instance
+
+| Metric | Value |
+|----------|-------:|
+| Cube Size | 10 |
+| Mask Ratio | 60% |
+| Runtime | ≈ 8.2 s |
+| Recursive Calls | ≈ 2.5 million |
+
+---
+
+## Findings
+
+### Runtime Growth
+
+Runtime increased with both cube size and masking ratio.
+
+Small cubes were solved almost instantly, while larger heavily masked cubes required substantially more computation. The increase became particularly noticeable for cube sizes 9 and 10, where the solver had to explore a significantly larger search space.
+
+### Recursive Search Growth
+
+The number of recursive calls increased rapidly as problem difficulty increased.
+
+At **60% masking**, recursive calls increased from:
+
+```text
+17
+```
+
+for a cube of size **3**
+
+to approximately:
+
+```text
+2,500,000
+```
+
+for a cube of size **10**.
+
+This demonstrates the rapid expansion of the search space typical of backtracking algorithms.
+
+### Comparison with Theory
+
+The observed behavior matches the theoretical complexity:
+
+```text
+O(n^m)
+```
+
+where:
+
+- `n` is the number of symbols.
+- `m` is the number of masked cells.
+
+As cube size and masking ratio increase, the solver must explore a significantly larger search space, leading to substantial increases in runtime and recursion depth.
+
+---
+
+## Generated Graphs
+
+### Runtime vs Cube Size (Log Scale)
+
+`report/runtime_vs_size_log.png`
 
 **Observation**
 
-- Recursive calls increase rapi*ly with cube size.
-- Higher maskin* ratios require substantially more*search effort.
-- The growth patter* supports the expected exponential*behavior of backtracking.
+- Runtime increases with cube size.
+- Higher masking ratios consistently produce longer runtimes.
+- The logarithmic scale reveals growth trends that are difficult to observe on a linear scale.
 
 ---
 
-##*/runtime_pair_9_10_log.png
+### Recursive Calls vs Cube Size
+
+`report/recursive_calls_vs_size.png`
+
+**Observation**
+
+- Recursive calls increase rapidly with cube size.
+- Higher masking ratios require substantially more search effort.
+- The growth pattern supports the expected exponential behavior of backtracking.
+
+---
+
+### Runtime vs Mask Ratio (Log Scale, Sizes 9 and 10)
+
+`report/runtime_pair_9_10_log.png`
 
 **Observation**
 
@@ -333,7 +362,7 @@ As cube size*and masking ratio increase, the so*ver must explore a significantly
 
 ### Recursive Calls vs Cube Size (60% Masking)
 
-report/hard_recursive_calls.png
+`report/hard_recursive_calls.png`
 
 **Observation**
 
