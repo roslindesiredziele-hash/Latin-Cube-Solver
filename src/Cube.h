@@ -20,6 +20,8 @@ class Cube
     void generateLatinCube();
     void renameSymbols();
     void permuteLayers();
+    void maskCells(double);
+    
 };
 
 
