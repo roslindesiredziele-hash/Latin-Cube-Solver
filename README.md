@@ -333,7 +333,7 @@ data/benchmark.csv
 
 ---
 
-## Generated Graphs
+## Experimental Results
 
 The following graphs were generated directly from the benchmark dataset and are included to support the findings presented in this README and the accompanying report.
 
