@@ -9,6 +9,9 @@ class Solver
     long long calls = 0;
 
     bool solve(Cube&);
+
+    private:
+
     
 };
 
