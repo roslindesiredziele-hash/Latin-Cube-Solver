@@ -109,4 +109,3 @@ void Cube::print() const
         std::cout << '\n';
     }
 }
-

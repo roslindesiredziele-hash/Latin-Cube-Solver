@@ -47,3 +47,34 @@ bool Solver::isValid(Cube& cube, int layer, int row, int col, int value)
 
     return true;
 }
+
+bool Solver::solve(Cube& cube)
+{
+    calls++;
+
+    int layer;
+    int row;
+    int col;
+
+    if (!findEmpty(cube, layer, row, col))
+    {
+        return true;
+    }
+
+    for (int value = 1; value <= cube.size(); value++)
+    {
+        if (isValid(cube, layer, row, col, value))
+        {
+            cube.set(layer, row, col, value);
+
+            if (solve(cube))
+            {
+                return true;
+            }
+
+            cube.set(layer, row, col, 0);
+        }
+    }
+
+    return false;
+}
