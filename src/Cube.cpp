@@ -45,3 +45,18 @@ void Cube::set(int layer, int row, int col, int value)
 
     cube[layer][row][col] = value;
 }
+
+void Cube::generateLatinCube()
+{
+    for (int layer = 0; layer < n; layer++)
+    {
+        for (int row = 0; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                cube[layer][row][col] = (layer + row + col) % n + 1;
+            }
+        }
+    }
+}
+
