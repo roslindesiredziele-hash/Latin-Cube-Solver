@@ -19,6 +19,7 @@ class Cube
     void set(int, int, int, int);
     void generateLatinCube();
     void renameSymbols();
+    void permuteLayers();
 };
 
 
