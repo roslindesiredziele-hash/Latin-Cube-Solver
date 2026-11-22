@@ -280,7 +280,7 @@ These values correspond to one representative benchmark run using a masking rati
 
 ### Runtime Growth
 
-Runtime increased with both cube size and masking ratio.
+Runtime increased with both cube size and masking ratio, confirming the theoretical expectation that larger search spaces require substantially more exploration.
 
 Small cubes were solved almost instantly, while larger heavily masked cubes required substantially more computation. The increase became particularly noticeable for cube sizes 9 and 10, where the solver had to explore a significantly larger search space.
 
@@ -388,7 +388,7 @@ The following graphs were generated directly from the benchmark dataset and are 
 
 ### Graph Summary
 
-The generated graphs provide empirical evidence supporting the theoretical complexity analysis:
+The generated graphs support the conclusions drawn from both the theoretical analysis and the benchmark data:
 
 - Runtime increases with cube size.
 - Runtime increases with masking ratio.
