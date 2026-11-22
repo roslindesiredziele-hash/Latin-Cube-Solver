@@ -1,41 +1,75 @@
 #include "Cube.h"
 #include "Solver.h"
 
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 
 int main()
 {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    Cube cube(3);
-
-    cube.generateLatinCube();
-
-    cube.maskCells(0.3);
-
-    std::cout << "Puzzle:\n\n";
-
-    cube.print();
-
-    Solver solver;
-
-    if (solver.solve(cube))
+    try
     {
-        std::cout << "\nSolved:\n\n";
+        Cube cube(4);
 
+        std::cout << "Generating Latin cube...\n";
+
+        cube.generateLatinCube();
+
+        std::cout << "\nOriginal Cube:\n\n";
         cube.print();
 
-        std::cout
-            << "Recursive calls: "
-            << solver.calls
-            << '\n';
+        cube.saveCSV("data/generated_cube.csv");
+
+        std::cout << "Renaming symbols...\n";
+        cube.renameSymbols();
+
+        std::cout << "Permuting layers...\n";
+        cube.permuteLayers();
+
+        std::cout << "\nRandomized Cube:\n\n";
+        cube.print();
+
+        std::cout << "Masking 30% of cells...\n";
+
+        cube.maskCells(0.30);
+
+        std::cout << "\nPuzzle:\n\n";
+        cube.print();
+
+        cube.saveCSV("data/masked_cube.csv");
+
+        Solver solver;
+
+        std::cout << "Solving...\n";
+
+        if (solver.solve(cube))
+        {
+            std::cout << "\nSolved Cube:\n\n";
+            cube.print();
+
+            cube.saveCSV("data/solved_cube.csv");
+
+            std::cout << "\nSolution found.\n";
+            std::cout
+                << "Recursive calls: "
+                << solver.calls
+                << '\n';
+        }
+        else
+        {
+            std::cout << "\nNo solution found.\n";
+        }
     }
-    else
+    catch (const std::exception& e)
     {
-        std::cout
-            << "No solution found.\n";
+        std::cerr
+            << "Error: "
+            << e.what()
+            << '\n';
+
+        return 1;
     }
 
     return 0;
