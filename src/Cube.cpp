@@ -24,7 +24,9 @@ int Cube::size() const
 
 int Cube::get(int layer, int row, int col) const
 {
-    if (layer < 0 || layer >= n || row   < 0 || row   >= n || col   < 0 || col   >= n)
+    if (layer < 0 || layer >= n ||
+        row   < 0 || row   >= n ||
+        col   < 0 || col   >= n)
     {
         throw std::out_of_range("Cube index out of range.");
     }
@@ -34,10 +36,12 @@ int Cube::get(int layer, int row, int col) const
 
 void Cube::set(int layer, int row, int col, int value)
 {
-    if (layer < 0 || layer >= n || row   < 0 || row   >= n || col   < 0 || col   >= n)
+    if (layer < 0 || layer >= n ||
+        row   < 0 || row   >= n ||
+        col   < 0 || col   >= n)
     {
         throw std::out_of_range("Cube index out of range.");
     }
-    
+
     cube[layer][row][col] = value;
 }
