@@ -19,6 +19,27 @@ int main()
 {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
+    std::vector<int> sizes =
+    {
+        3,
+        4,
+        5,
+        6
+    };
+
+    std::vector<double> ratios =
+    {
+        0.20,
+        0.40,
+        0.60
+    };
+
+    constexpr int runs = 20;
+
+    RunBenchmarks(sizes, ratios, runs);
+
+    std::cout << "Benchmark complete.\n";
+
     return 0;
 }
 
