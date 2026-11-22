@@ -14,7 +14,7 @@ class Solver
 
     bool findempty(Cube&, int&, int&, int&);
 
-    
+    bool isValid(Cube&, int&, int&, int&);
 };
 
 #endif
