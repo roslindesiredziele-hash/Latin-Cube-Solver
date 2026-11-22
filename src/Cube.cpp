@@ -97,6 +97,20 @@ void Cube::renameSymbols()
     }
 }
 
+void Cube::permuteLayers()
+{
+    for (int i = 0; i < n; i++)
+    {
+        int j = std::rand() % n;
+
+        std::vector<std::vector<int>> temp = cube[i];
+
+        cube[i] = cube[j];
+
+        cube[j] = temp;
+    }
+}
+
 void Cube::maskCells(double ratio)
 {
     if (ratio < 0.0 || ratio > 1.0)
