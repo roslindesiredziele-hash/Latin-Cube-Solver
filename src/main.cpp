@@ -1,6 +1,7 @@
 #include "Cube.h"
 #include "Solver.h"
 
+#include <windows.h>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
